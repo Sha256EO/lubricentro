@@ -2,8 +2,8 @@
 
 namespace Modules\Iam\Branch\Domain\Repositories;
 
-use Modules\Iam\Domain\Entities\Branch;
-use Modules\Iam\Domain\ValueObjects\BranchName;
+use Modules\Iam\Branch\Domain\Entities\Branch;
+use Modules\Iam\Branch\Domain\ValueObjects\BranchName;
 
 interface BranchRepository
 {
