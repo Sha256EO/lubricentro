@@ -2,6 +2,8 @@
 
 namespace Modules\Iam\Branch\Application\Branch\UseCases;
 
+use Modules\Iam\Branch\Application\Branch\DTOs\BranchCollertorDto;
+use Modules\Iam\Branch\Application\Branch\Mapper\BranchMapper;
 use Modules\Iam\Branch\Domain\Entities\Branch;
 use Modules\Iam\Branch\Domain\Repositories\BranchRepository;
 
@@ -14,8 +16,10 @@ class GetAllBranchesUseCase
     /**
      * @return iterable<Branch>
      */
-    public function execute(): iterable
+    public function execute(): BranchCollertorDto
     {
-        return $this->repository->all();
+        $branches = $this->repository->all();
+
+        return BranchMapper::toCollector($branches);
     }
 }

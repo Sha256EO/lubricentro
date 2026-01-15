@@ -2,6 +2,7 @@
 
 namespace Modules\Iam\Branch\Application\Branch\UseCases;
 
+use Modules\Iam\Branch\Application\Branch\DTOs\CreateBranchDto;
 use Modules\Iam\Branch\Domain\Entities\Branch;
 use Modules\Iam\Branch\Domain\Policies\BranchPolicy;
 use Modules\Iam\Branch\Domain\Repositories\BranchRepository;
@@ -16,19 +17,15 @@ class CreateMainBranchUseCase
         private BranchPolicy $policy
     ) {}
 
-    public function execute(
-        BranchName $name,
-        BranchAddress $address,
-        BranchPhone $phone
-    ): void {
+    public function execute(CreateBranchDto $dto): void {
         $branches = $this->repository->all();
 
         $this->policy->ensureOnlyOneMainBranch($branches);
 
         $branch = Branch::createMain(
-            name: $name,
-            address: $address,
-            phone: $phone
+            name: new BranchName($dto->name),
+            address: new BranchAddress($dto->address),
+            phone: new BranchPhone($dto->phone)
         );
 
         $this->repository->save($branch);

@@ -2,6 +2,7 @@
 
 namespace Modules\Iam\Branch\Application\Branch\UseCases;
 
+use Modules\Iam\Branch\Application\Branch\DTOs\CreateBranchDto;
 use Modules\Iam\Branch\Domain\Entities\Branch;
 use Modules\Iam\Branch\Domain\Repositories\BranchRepository;
 use Modules\Iam\Branch\Domain\ValueObjects\BranchAddress;
@@ -14,15 +15,11 @@ class CreateSecondaryBranchUseCase
         private BranchRepository $repository
     ) {}
 
-    public function execute(
-        BranchName $name,
-        BranchAddress $address,
-        BranchPhone $phone
-    ): void {
+    public function execute(CreateBranchDto $dto): void {
         $branch = Branch::createSecondary(
-            name: $name,
-            address: $address,
-            phone: $phone
+            name: new BranchName($dto->name),
+            address: new BranchAddress($dto->address),
+            phone: new BranchPhone($dto->phone)
         );
 
         $this->repository->save($branch);
